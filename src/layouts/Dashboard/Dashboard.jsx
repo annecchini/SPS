@@ -110,6 +110,15 @@ class Dashboard extends Component {
         >
           <Header {...this.props} />
           <Switch>
+
+
+
+
+
+
+
+
+            {/* Parte do menu criado a partir das rotas de Dashboard*/}
             {dashboardRoutes.map((prop, key) => {
               if (prop.collapse) {
                 return prop.views.map((prop, key) => {
@@ -151,6 +160,14 @@ class Dashboard extends Component {
                   );
               }
             })}
+
+
+
+
+
+
+
+
           </Switch>
           <Footer fluid />
         </div>

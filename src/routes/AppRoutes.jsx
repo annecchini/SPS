@@ -1,7 +1,32 @@
 import UserPage from "views/Pages/UserPage.jsx";
+import Processes from "views/AppViews/Processes.jsx";
 
 
-var myRoutes = [
+var AppRoutes = [
+    {
+        path: "/app/home",
+        name: "Home",
+        mini: "HM",
+        component: UserPage
+    },
+    {
+        path: "/app/users",
+        name: "Usuários",
+        mini: "PR",
+        component: UserPage
+    },
+    {
+        path: "/app/processes/list",
+        name: "Processos",
+        mini: "PR",
+        component: Processes
+    },
+    {
+        path: "/app/processes/new",
+        name: "Novo processo",
+        mini: "PR",
+        component: UserPage
+    },
     {
         path: "/app/mypage",
         name: "Minha página",
@@ -61,4 +86,4 @@ var myRoutes = [
     }
 ];
 
-export default myRoutes;
+export default AppRoutes;

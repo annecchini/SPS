@@ -21,13 +21,14 @@ import Calendar from "views/Calendar/Calendar.jsx";
 import UserPage from "views/Pages/UserPage.jsx";
 
 import pagesRoutes from "./pages.jsx";
-import myRoutes from "./my-routes";
+
+import AppRoutes from "./AppRoutes";
 
 var pages = [
   { path: "/user-page", name: "User Page", mini: "UP", component: UserPage }
 ].concat(pagesRoutes);
 
-var dashboardRoutes = myRoutes.concat([
+var dashboardRoutes = AppRoutes.concat([
   {
     path: "/dashboard",
     name: "Dashboard",

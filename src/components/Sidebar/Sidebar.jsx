@@ -25,7 +25,7 @@ class Sidebar extends Component {
     super(props);
     this.state = {
       openAvatar: false,
-      openComponents: this.activeRoute("/app/myblock") !== "" ? true : false,
+      openMyBlock: this.activeRoute("/app/myblock") !== "" ? true : false,
       openComponents: this.activeRoute("/components") !== "" ? true : false,
       openForms: this.activeRoute("/forms") !== "" ? true : false,
       openTables: this.activeRoute("/tables") !== "" ? true : false,
