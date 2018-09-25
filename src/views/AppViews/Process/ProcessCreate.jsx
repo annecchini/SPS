@@ -19,8 +19,14 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import Datetime from "react-datetime";
 // react component that creates a switch button that changes from on to off mode
 
+import DummyApi from "../../../variables/DummyApi.jsx";
 import RegexHelpers from '../../../helpers/RegexHelpers.jsx'
 
+
+//Imports para colocar o datetime em pt-br
+import moment from 'moment'
+import 'moment/locale/pt-br'
+moment.locale('pt-br')
 
 class ProcessCreate extends React.Component {
     constructor(props) {
@@ -33,9 +39,11 @@ class ProcessCreate extends React.Component {
             createProcess_end: "",
             createProcess_description: "",
             // Create process error messages
-            createProcess_numberError: "",
-            createProcess_yearError: "",
-            createProcess_endError: "",
+            createProcess_numberError: null,
+            createProcess_yearError: null,
+            createProcess_endError: null,
+            // Create process form error
+            createProcess_formError: ""
         };
     }
 
@@ -107,9 +115,77 @@ class ProcessCreate extends React.Component {
         });
     }
 
+    removeAlert() {
+        this.setState({
+            createProcess_formError: null
+        })
+    }
+
     handleSubmit(event) {
         event.preventDefault()
-        console.log(this.state)
+
+        let readyToPost = true
+
+        //conferindo se não existem erros em campos / Se existem campos obrigatórios vazios.
+        if ((this.state.createProcess_numberError !== null || this.state.createProcess_yearError !== null || this.state.createProcess_endError !== null) || (this.state.createProcess_number === "" || this.state.createProcess_year === "" || this.state.createProcess_end === "")) {
+            readyToPost = false
+            this.setState({
+                createProcess_formError: (
+                    <FormGroup>
+                        <ControlLabel className="col-md-3"></ControlLabel>
+                        <Col md={8}>
+                            <div className="alert alert-danger" role="alert" onClick={event => this.removeAlert(event)}>
+                                <button type="button" className="close" aria-label="Close">&times;</button>
+                                Existem campos requeridos vazios ou com erro.
+                            </div>
+                        </Col>
+                    </FormGroup>
+                )
+            })
+        }
+
+        const newProcess = {
+            number: this.state.createProcess_number,
+            year: this.state.createProcess_year,
+            end: this.state.createProcess_end._d,
+            description: this.state.createProcess_description
+        }
+
+        //Tentar enviar para o servidor.
+        if (readyToPost) {
+
+            let result = null
+
+            try {
+                result = DummyApi.postData('process-create', newProcess)
+            }
+            catch (exception) {
+                alert("Falha na comunicação com o servidor")
+            }
+
+            if (result.ok === true) {
+                this.props.changeMode('process-list')
+            } else {
+                this.setState({
+                    createProcess_formError: (
+                        <FormGroup>
+                            <ControlLabel className="col-md-3"></ControlLabel>
+                            <Col md={8}>
+                                <div className="alert alert-danger" role="alert" onClick={event => this.removeAlert(event)}>
+                                    <button type="button" className="close" aria-label="Close">&times;</button>
+                                    {result.message.userMessage}
+                                </div>
+                            </Col>
+                        </FormGroup>
+                    )
+                })
+            }
+        }
+    }
+
+    handleCancel(event) {
+        event.preventDefault()
+        this.props.changeMode('process-list')
     }
 
     render() {
@@ -123,6 +199,8 @@ class ProcessCreate extends React.Component {
                             content={
                                 <span>
                                     <Form horizontal>
+
+                                        {this.state.createProcess_formError}
 
                                         <FormGroup>
                                             <ControlLabel className="col-md-3">
@@ -160,6 +238,7 @@ class ProcessCreate extends React.Component {
                                             </ControlLabel>
                                             <Col md={8}>
                                                 <Datetime
+                                                    locale='pt-br'
                                                     onChange={date => this.handleProcessEnd(date)}
                                                     dateFormat="DD/MM/YYYY"
                                                     timeFormat={false}
@@ -185,11 +264,15 @@ class ProcessCreate extends React.Component {
                                         </FormGroup>
 
                                         <FormGroup>
-                                            <Col md={9} mdOffset={3}>
-                                                <Button bsStyle="info" fill onClick={event => this.handleSubmit(event)}>
-                                                    Criar novo processo
-                                                </Button>
-                                            </Col>
+                                                <Col md={8} mdOffset={3}>
+                                                    <Button bsStyle="info" fill onClick={event => this.handleSubmit(event)}>
+                                                        Criar novo processo
+                                                    </Button >
+                                                    {" "}
+                                                    <Button bsStyle="info" fill onClick={event => this.handleCancel(event)}>
+                                                        Cancelar
+                                                    </Button>
+                                                </Col>
                                         </FormGroup>
 
                                     </Form>

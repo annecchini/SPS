@@ -11,11 +11,8 @@ import {
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-
-
 import DummyApi from "../../../variables/DummyApi.jsx";
 import FormatHelpers from '../../../helpers/FormatHelpers.jsx';
-
 
 
 class ProcessList extends React.Component {
@@ -36,24 +33,24 @@ class ProcessList extends React.Component {
         }
     }
 
-    renderActions(processId) {
+    renderActions(process) {
         const view = <Tooltip id="view">Ver</Tooltip>;
         const edit = <Tooltip id="edit">Editar</Tooltip>;
         const remove = <Tooltip id="remove">Remover</Tooltip>;
         return (
             <td className="td-actions text-right">
                 <OverlayTrigger placement="top" overlay={view}>
-                    <Button simple bsStyle="info" bsSize="xs" onClick={() => this.props.changeMode('process-read', processId)}>
+                    <Button simple bsStyle="info" bsSize="xs" onClick={() => this.props.changeMode('process-read', process)}>
                         <i className="fa fa-user" />
                     </Button>
                 </OverlayTrigger>
                 <OverlayTrigger placement="top" overlay={edit} >
-                    <Button simple bsStyle="success" bsSize="xs" onClick={() => this.props.changeMode('process-update', processId)}>
+                    <Button simple bsStyle="success" bsSize="xs" onClick={() => this.props.changeMode('process-update', process)}>
                         <i className="fa fa-edit" />
                     </Button>
                 </OverlayTrigger>
                 <OverlayTrigger placement="top" overlay={remove}>
-                    <Button simple bsStyle="danger" bsSize="xs" onClick={() => this.props.changeMode('process-delete', processId)}>
+                    <Button simple bsStyle="danger" bsSize="xs" onClick={() => this.props.changeMode('process-delete', process)}>
                         <i className="fa fa-times" />
                     </Button>
                 </OverlayTrigger>
@@ -73,7 +70,7 @@ class ProcessList extends React.Component {
                             tableFullWidth
                             content={
                                 <div style={{ paddingLeft: 10 }}>
-                                    <Button bsStyle="primary" onClick={() => this.props.changeMode('process-create')} >Novo processo...</Button>
+                                    <Button bsStyle="primary" fill onClick={() => this.props.changeMode('process-create')} >Novo processo...</Button>
                                 </div>
                             }
                         />
@@ -107,7 +104,7 @@ class ProcessList extends React.Component {
                                                 return (
                                                     <tr key={process.id}>
                                                         <td>{`${FormatHelpers.processNumber(process.number)}/${process.year}`}</td>
-                                                        {this.renderActions(process.id)}
+                                                        {this.renderActions(process)}
                                                     </tr>
                                                 )
                                             })}

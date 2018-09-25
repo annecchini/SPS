@@ -17,11 +17,11 @@ class Processes extends React.Component {
         }
     }
 
-    changeMode = (newMode, newId) => {
-        if (newId !== undefined) {
+    changeMode = (newMode, newProcess) => {
+        if (newProcess !== undefined) {
             this.setState({
                 currentMode: newMode,
-                currentId: newId
+                currentProcess: newProcess
             })
         } else {
             this.setState({
@@ -40,13 +40,13 @@ class Processes extends React.Component {
                 component = <ProcessCreate changeMode={this.changeMode} />
                 break
             case 'process-read':
-                component = <ProcessRead id={this.state.currentId} changeMode={this.changeMode} />
+                component = <ProcessRead process={this.state.currentProcess} changeMode={this.changeMode} />
                 break
             case 'process-update':
-                component = <ProcessUpdate id={this.state.currentId} changeMode={this.changeMode} />
+                component = <ProcessUpdate process={this.state.currentProcess} changeMode={this.changeMode} />
                 break
             case 'process-delete':
-                component = <ProcessDelete id={this.state.currentId} changeMode={this.changeMode} />
+                component = <ProcessDelete process={this.state.currentProcess} changeMode={this.changeMode} />
                 break
             default:
                 break
