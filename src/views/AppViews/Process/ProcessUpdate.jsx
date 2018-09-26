@@ -48,7 +48,6 @@ class ProcessUpdate extends React.Component {
     }
 
     componentDidMount(){
-        console.log(this.props.process)
         this.setState({
             updateProcess_number: FormatHelpers.processNumber(this.props.process.number),
             updateProcess_year: this.props.process.year,
@@ -103,8 +102,8 @@ class ProcessUpdate extends React.Component {
 
         //verifica formato DD/MM/AAAA
         if (typeof date === 'string') {
-            var dateBrRex = RegexHelpers.dateBrRegex();
-            dateBrRex.test(date) === false
+            var brDateRex = RegexHelpers.brDateRegex();
+            brDateRex.test(date) === false
                 ? this.setState({
                     updateProcess_endError: (
                         <small className="text-danger">
@@ -127,7 +126,7 @@ class ProcessUpdate extends React.Component {
 
     removeAlert() {
         this.setState({
-            createPocess_formError: null
+            createProcess_formError: null
         })
     }
 
@@ -140,7 +139,7 @@ class ProcessUpdate extends React.Component {
         if ((this.state.updateProcess_numberError !== null || this.state.updateProcess_yearError !== null || this.state.updateProcess_endError !== null) || (this.state.updateProcess_number === "" || this.state.updateProcess_year === "" || this.state.updateProcess_end === "")) {
             readyToPost = false
             this.setState({
-                createPocess_formError: (
+                createProcess_formError: (
                     <FormGroup>
                         <ControlLabel className="col-md-3"></ControlLabel>
                         <Col md={8}>
@@ -154,7 +153,8 @@ class ProcessUpdate extends React.Component {
             })
         }
 
-        const newProcess = {
+        const updatedProcess = {
+            id: this.props.process.id,
             number: this.state.updateProcess_number,
             year: this.state.updateProcess_year,
             end: this.state.updateProcess_end._d,
@@ -167,7 +167,7 @@ class ProcessUpdate extends React.Component {
             let result = null
 
             try {
-                result = DummyApi.postData('process-create', newProcess)
+                result = DummyApi.putData('process-update', updatedProcess)
             }
             catch (exception) {
                 alert("Falha na comunicação com o servidor")
@@ -177,7 +177,7 @@ class ProcessUpdate extends React.Component {
                 this.props.changeMode('process-list')
             } else {
                 this.setState({
-                    createPocess_formError: (
+                    createProcess_formError: (
                         <FormGroup>
                             <ControlLabel className="col-md-3"></ControlLabel>
                             <Col md={8}>
@@ -210,7 +210,7 @@ class ProcessUpdate extends React.Component {
                                 <span>
                                     <Form horizontal>
 
-                                        {this.state.createPocess_formError}
+                                        {this.state.createProcess_formError}
 
                                         <FormGroup>
                                             <ControlLabel className="col-md-3">

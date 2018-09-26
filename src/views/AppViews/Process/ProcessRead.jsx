@@ -7,6 +7,8 @@ import {
 
 import Card from "components/Card/Card.jsx";
 
+import FormatHelpers from '../../../helpers/FormatHelpers.jsx'
+
 class ProcessRead extends React.Component {
     render() {
         return (
@@ -14,7 +16,7 @@ class ProcessRead extends React.Component {
                 <Grid fluid>
                     <Row>
                         <Card
-                            title="Novo processo"
+                            title={`Processo seletivo ${FormatHelpers.processNumber(this.props.process.number)}/${this.props.process.year}`}
                             tableFullWidth
                             content={
                                 <ul>

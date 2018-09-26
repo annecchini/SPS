@@ -93,8 +93,8 @@ class ProcessCreate extends React.Component {
 
         //verifica formato DD/MM/AAAA
         if (typeof date === 'string') {
-            var dateBrRex = RegexHelpers.dateBrRegex();
-            dateBrRex.test(date) === false
+            var brDateRex = RegexHelpers.brDateRegex();
+            brDateRex.test(date) === false
                 ? this.setState({
                     createProcess_endError: (
                         <small className="text-danger">
