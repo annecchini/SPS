@@ -13,7 +13,7 @@ import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import Checkbox from "components/CustomCheckbox/CustomCheckbox.jsx";
 
-class LoginPage extends Component {
+class AuthLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -68,4 +68,4 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+export default AuthLogin;

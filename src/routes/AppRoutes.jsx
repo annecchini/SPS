@@ -1,31 +1,26 @@
 import UserPage from "views/Pages/UserPage.jsx";
 import Processes from "views/AppViews/Processes.jsx";
+import Home from "views/AppViews/Home.jsx"
 
 
 var AppRoutes = [
     {
         path: "/app/home",
-        name: "Home",
-        mini: "HM",
-        component: UserPage
+        name: "Início",
+        icon: "pe-7s-home",
+        component: Home
     },
     {
         path: "/app/users",
         name: "Usuários",
-        mini: "PR",
+        icon: "pe-7s-users",
         component: UserPage
     },
     {
-        path: "/app/processes/list",
+        path: "/app/processes",
         name: "Processos",
-        mini: "PR",
+        icon: "pe-7s-albums",
         component: Processes
-    },
-    {
-        path: "/app/mypage",
-        name: "Minha página",
-        mini: "MP",
-        component: UserPage
     },
     {
         collapse: true,

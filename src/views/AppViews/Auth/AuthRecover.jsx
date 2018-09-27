@@ -5,7 +5,7 @@ import Card from "components/Card/Card.jsx";
 
 import Button from "components/CustomButton/CustomButton.jsx";
 
-class AuthRegister extends Component {
+class AuthRecover extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -108,4 +108,4 @@ class AuthRegister extends Component {
   }
 }
 
-export default AuthRegister;
+export default AuthRecover;

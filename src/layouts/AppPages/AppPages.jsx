@@ -5,7 +5,7 @@ import Footer from "components/Footer/Footer.jsx";
 import PagesHeader from "components/Header/PagesHeader.jsx";
 
 // dinamically create pages routes
-import pagesRoutes from "routes/pages.jsx";
+import pagesRoutes from "routes/AppPages.jsx";
 
 import bgImage from "assets/img/full-screen-image-2.jpg";
 
@@ -13,14 +13,14 @@ class Pages extends Component {
   getPageClass() {
     var pageClass = "";
     switch (this.props.location.pathname) {
-      case "/pages/login-page":
+      case "/app/auth/login":
         pageClass = " login-page";
         break;
-      case "/pages/register-page":
+      case "/app/auth/register":
         pageClass = " register-page";
         break;
-      case "/pages/lock-screen-page":
-        pageClass = " lock-page";
+      case "/app/auth/recover":
+        pageClass = " register-page";
         break;
       default:
         pageClass = "";

@@ -16,7 +16,7 @@ var AppRoutes = [
         component: UserPage
     },
     {
-        path: "/app/processes/list",
+        path: "/app/processes",
         name: "Processos",
         icon: "pe-7s-albums",
         component: Processes

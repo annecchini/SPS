@@ -112,13 +112,13 @@ class Sidebar extends Component {
               <Collapse in={this.state.openAvatar}>
                 <ul className="nav">
                   <li>
-                    <a href="http://localhost:3000/#/pages/login-page">
+                    <a href="http://localhost:3000/#/app/auth/login">
                       <span className="sidebar-mini">LG</span>
                       <span className="sidebar-normal">Login</span>
                     </a>
                   </li>
                   <li>
-                    <a href="http://localhost:3000/#/pages/register-page">
+                    <a href="http://localhost:3000/#/app/auth/register">
                       <span className="sidebar-mini">RG</span>
                       <span className="sidebar-normal">Registre-se</span>
                     </a>
@@ -207,6 +207,7 @@ class Sidebar extends Component {
               }
             })}
 
+            <li><hr></hr></li>
             
             {/* */}
             {dashboardRoutes.map((prop, key) => {

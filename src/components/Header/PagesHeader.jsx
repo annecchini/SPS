@@ -33,7 +33,7 @@ class PagesHeader extends Component {
       >
         <Navbar.Header>
           <Navbar.Brand>
-            <NavLink to={"/dashboard"} className="nav-link">
+            <NavLink to={"/"} className="nav-link">
               {this.state.width > 429
                 ? "Processos Seletivos SEAD"
                 : "Editais SEAD"}
@@ -50,13 +50,13 @@ class PagesHeader extends Component {
               </NavLink>
             </li>
             <li className={this.activeRoute("login-page")}>
-              <NavLink to={"/pages/login-page"} className="nav-link">
+              <NavLink to={"/app/auth/login"} className="nav-link">
                 <i className="fa fa-drivers-license-o" />
                 <p>Login</p>
               </NavLink>
             </li>
             <li className={this.activeRoute("register-page")}>
-              <NavLink to={"/pages/register-page"} className="nav-link">
+              <NavLink to={"/app/auth/register"} className="nav-link">
                 <i className="fa fa-user-circle-o" />
                 <p>Registre-se</p>
               </NavLink>
