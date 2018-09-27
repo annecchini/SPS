@@ -22,13 +22,12 @@ import UserPage from "views/Pages/UserPage.jsx";
 
 import pagesRoutes from "./pages.jsx";
 
-import AppRoutes from "./AppRoutes";
 
 var pages = [
   { path: "/user-page", name: "User Page", mini: "UP", component: UserPage }
 ].concat(pagesRoutes);
 
-var dashboardRoutes = AppRoutes.concat([
+var dashboardRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -179,5 +178,5 @@ var dashboardRoutes = AppRoutes.concat([
     views: pages
   },
   { redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard" }
-]);
+];
 export default dashboardRoutes;

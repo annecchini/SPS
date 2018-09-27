@@ -9,6 +9,7 @@ class RegisterPage extends Component {
   constructor(props){
     super(props)
     this.state = {
+      //register form data
       register_firstName: "",
       register_lastName: "",
       register_cpf: "",

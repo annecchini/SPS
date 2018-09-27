@@ -16,6 +16,8 @@ import logo from "logo.svg";
 
 import dashboardRoutes from "routes/dashboard.jsx";
 
+import appRoutesSidebar from "routes/AppRoutesSidebar.jsx"
+
 const bgImage = { backgroundImage: "url(" + image + ")" };
 
 var ps;
@@ -136,6 +138,77 @@ class Sidebar extends Component {
                             we have to create a collapsible group,
                             with the speciffic parent button and with it's children which are the links
                         */}
+
+
+            {/* My app routes*/}
+            {appRoutesSidebar.map((prop, key) => {
+              var st = {};
+              st[prop["state"]] = !this.state[prop.state];
+              if (prop.collapse) {
+                return (
+                  <li className={this.activeRoute(prop.path)} key={`app${key}`}>
+                    <a onClick={() => this.setState(st)}>
+                      <i className={prop.icon} />
+                      <p>
+                        {prop.name}
+                        <b
+                          className={
+                            this.state[prop.state]
+                              ? "caret rotate-180"
+                              : "caret"
+                          }
+                        />
+                      </p>
+                    </a>
+                    <Collapse in={this.state[prop.state]}>
+                      <ul className="nav">
+                        {prop.views.map((prop, key) => {
+                          return (
+                            <li
+                              className={this.activeRoute(prop.path)}
+                              key={key}
+                            >
+                              <NavLink
+                                to={prop.path}
+                                className="nav-link"
+                                activeClassName="active"
+                              >
+                                <span className="sidebar-mini">
+                                  {prop.mini}
+                                </span>
+                                <span className="sidebar-normal">
+                                  {prop.name}
+                                </span>
+                              </NavLink>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </Collapse>
+                  </li>
+                );
+              } else {
+                if (prop.redirect) {
+                  return null;
+                } else {
+                  return (
+                    <li className={this.activeRoute(prop.path)} key={key}>
+                      <NavLink
+                        to={prop.path}
+                        className="nav-link"
+                        activeClassName="active"
+                      >
+                        <i className={prop.icon} />
+                        <p>{prop.name}</p>
+                      </NavLink>
+                    </li>
+                  );
+                }
+              }
+            })}
+
+            
+            {/* */}
             {dashboardRoutes.map((prop, key) => {
               var st = {};
               st[prop["state"]] = !this.state[prop.state];

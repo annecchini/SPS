@@ -5,27 +5,21 @@ import Processes from "views/AppViews/Processes.jsx";
 var AppRoutes = [
     {
         path: "/app/home",
-        name: "Home",
-        mini: "HM",
+        name: "Início",
+        icon: "pe-7s-home",
         component: UserPage
     },
     {
         path: "/app/users",
         name: "Usuários",
-        mini: "PR",
+        icon: "pe-7s-users",
         component: UserPage
     },
     {
         path: "/app/processes/list",
         name: "Processos",
-        mini: "PR",
+        icon: "pe-7s-albums",
         component: Processes
-    },
-    {
-        path: "/app/mypage",
-        name: "Minha página",
-        mini: "MP",
-        component: UserPage
     },
     {
         collapse: true,

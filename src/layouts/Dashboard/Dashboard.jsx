@@ -12,6 +12,8 @@ import Footer from "components/Footer/Footer.jsx";
 
 // dinamically create dashboard routes
 import dashboardRoutes from "routes/dashboard.jsx";
+import appRoutes from "routes/AppRoutes.jsx";
+
 
 // style for notifications
 import { style } from "variables/Variables.jsx";
@@ -111,7 +113,48 @@ class Dashboard extends Component {
           <Header {...this.props} />
           <Switch>
 
-
+            {/* criando as rotas da app */}
+            {appRoutes.map((prop, key) => {
+              if (prop.collapse) {
+                return prop.views.map((prop, key) => {
+                  if (prop.name === "Notifications") {
+                    return (
+                      <Route
+                        path={prop.path}
+                        key={`app${key}`}
+                        render={routeProps => (
+                          <prop.component
+                            {...routeProps}
+                            handleClick={this.handleNotificationClick}
+                          />
+                        )}
+                      />
+                    );
+                  } else {
+                    return (
+                      <Route
+                        path={prop.path}
+                        component={prop.component}
+                        key={key}
+                      />
+                    );
+                  }
+                });
+              } else {
+                if (prop.redirect)
+                  return (
+                    <Redirect from={prop.path} to={prop.pathTo} key={key} />
+                  );
+                else
+                  return (
+                    <Route
+                      path={prop.path}
+                      component={prop.component}
+                      key={key}
+                    />
+                  );
+              }
+            })}
 
 
 
