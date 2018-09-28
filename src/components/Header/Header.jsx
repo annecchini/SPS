@@ -9,6 +9,9 @@ import HeaderLinks from "./HeaderLinks.jsx";
 
 import dashboardRoutes from "routes/dashboard.jsx";
 
+/*My app routes*/
+import appRoutes from "routes/AppRoutes.jsx";
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +20,31 @@ class Header extends Component {
   }
   makeBrand() {
     var name;
+
+    /*My app routes*/
+    appRoutes.map((prop, key) => {
+      if (prop.collapse) {
+        prop.views.map((prop, key) => {
+          if (prop.path === this.props.location.pathname) {
+            name = prop.name;
+          }
+          return null;
+        });
+      } else {
+        if (prop.redirect) {
+          if (prop.path === this.props.location.pathname) {
+            name = prop.name;
+          }
+        } else {
+          if (prop.path === this.props.location.pathname) {
+            name = prop.name;
+          }
+        }
+      }
+      return null;
+    });
+
+    /*Template routes*/
     dashboardRoutes.map((prop, key) => {
       if (prop.collapse) {
         prop.views.map((prop, key) => {
@@ -38,6 +66,8 @@ class Header extends Component {
       }
       return null;
     });
+
+
     return name;
   }
   // function that makes the sidebar from normal to mini and vice-versa
