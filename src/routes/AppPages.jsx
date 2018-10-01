@@ -1,6 +1,7 @@
 import LoginPage from "views/AppViews/Auth/AuthLogin.jsx";
 import RegisterPage from "views/AppViews/Auth/AuthRegister.jsx";
 import RecoverPage from "views/AppViews/Auth/AuthRecover.jsx";
+import ConfirmPage from "views/AppViews/Auth/AuthConfirm.jsx";
 
 var pagesRoutes = [
   {
@@ -18,8 +19,14 @@ var pagesRoutes = [
   {
     path: "/app/auth/recover",
     name: "Recover",
-    mini: "LSP",
+    mini: "RC",
     component: RecoverPage
+  },
+  {
+    path: "/app/auth/confirm/:id",
+    name: "Confirm",
+    mini: "CF",
+    component: ConfirmPage
   }
 ];
 

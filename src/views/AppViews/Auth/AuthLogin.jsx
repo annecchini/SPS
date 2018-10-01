@@ -11,7 +11,8 @@ import {
 import Card from "components/Card/Card.jsx";
 
 import Button from "components/CustomButton/CustomButton.jsx";
-import Checkbox from "components/CustomCheckbox/CustomCheckbox.jsx";
+import { NavLink } from "react-router-dom";
+
 
 class AuthLogin extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class AuthLogin extends Component {
   }
   componentDidMount() {
     setTimeout(
-      function() {
+      function () {
         this.setState({ cardHidden: false });
       }.bind(this),
       700
@@ -48,9 +49,13 @@ class AuthLogin extends Component {
                       <ControlLabel>Senha</ControlLabel>
                       <FormControl placeholder="Senha" type="password" />
                     </FormGroup>
+
                     <FormGroup>
-                      <Checkbox number="1" label="Subscribe to newsletter" />
+                      <NavLink to={"/app/auth/forgot"} className="nav-link">
+                        <p>Esqueci meu login/senha.</p>
+                      </NavLink>
                     </FormGroup>
+
                   </div>
                 }
                 legend={

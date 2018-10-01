@@ -22,8 +22,11 @@ class Pages extends Component {
       case "/app/auth/recover":
         pageClass = " register-page";
         break;
+      case "/app/auth/confirm":
+        pageClass = " register-page";
+        break;
       default:
-        pageClass = "";
+        pageClass = " register-page";
         break;
     }
     return pageClass;

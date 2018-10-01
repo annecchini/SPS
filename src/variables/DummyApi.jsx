@@ -21,6 +21,9 @@ class DummyApi {
             case 'user-create':
                 result = userCreateResponse(info)
                 break
+            case 'auth-confirm':
+                result = authConfirmResponse(info)
+                break
             default:
                 break
         }
@@ -109,15 +112,34 @@ const processDeleteResponse = {
     }
 }
 
-function userCreateResponse(){
+function userCreateResponse(info) {
     return {
-        ok: true,
+        ok: false,
         message: {
             "code": "auth-05",
             "userMessage": "Mensagem de erro do servidor!",
             "devMessage": {}
         }
     }
+}
+
+function authConfirmResponse(info) {
+
+    if(info.key === "abcdef"){
+        return {
+            ok: true
+        }
+    } else {
+        return {
+            ok: false,
+            message: {
+                "code": "auth-05",
+                "userMessage": "Mensagem de erro do servidor!",
+                "devMessage": {}
+            }
+        }
+    }
+
 }
 
 export default DummyApi
