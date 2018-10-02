@@ -220,7 +220,6 @@ class AuthRegister extends Component {
         this.setState({
           success: true
         })
-        //this.props.changeMode('process-list')
       } else {
         this.setState({
           register_formError: (

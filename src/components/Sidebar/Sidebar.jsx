@@ -17,6 +17,7 @@ import logo from "logo.svg";
 import dashboardRoutes from "routes/dashboard.jsx";
 
 import appRoutesSidebar from "routes/AppRoutesSidebar.jsx"
+import DummySession from "variables/DummySession.jsx"
 
 const bgImage = { backgroundImage: "url(" + image + ")" };
 
@@ -34,9 +35,32 @@ class Sidebar extends Component {
       openMaps: this.activeRoute("/maps") !== "" ? true : false,
       openPages: this.activeRoute("/pages") !== "" ? true : false,
       isWindows: navigator.platform.indexOf("Win") > -1 ? true : false,
-      width: window.innerWidth
+      width: window.innerWidth,
+      //User data
+      user: null
     };
+
   }
+
+  componentWillMount() {
+
+    //recolhendo dados da sessão do usuário.
+    let result = null
+    try {
+      result = DummySession.getData('user-info')
+    }
+    catch (exception) {
+      alert("Falha em obter dados da sessão / Erro no servidor")
+    }
+
+    if (result.ok) {
+      this.setState({
+        user: result.user
+      })
+    }
+
+  }
+
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
@@ -46,6 +70,7 @@ class Sidebar extends Component {
   updateDimensions() {
     this.setState({ width: window.innerWidth });
   }
+
   componentDidMount() {
     this.updateDimensions();
     // add event listener for windows resize
@@ -64,11 +89,19 @@ class Sidebar extends Component {
       }, 350);
     }
   }
+
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
       ps.destroy();
     }
   }
+
+  logout(event){
+    event.preventDefault()
+    DummySession.delData('logout')
+    window.location.replace("http://localhost:3000")
+  }
+
   render() {
     return (
       <div className="sidebar" data-color="blue" data-image={image}>
@@ -101,7 +134,8 @@ class Sidebar extends Component {
                 }
               >
                 <span>
-                  Visitante
+                  {/*Nome do usuário*/}
+                  {this.state.user !== null ? this.state.user.firstName : 'Visitante'}
                   <b
                     className={
                       this.state.openAvatar ? "caret rotate-180" : "caret"
@@ -109,22 +143,53 @@ class Sidebar extends Component {
                   />
                 </span>
               </a>
-              <Collapse in={this.state.openAvatar}>
-                <ul className="nav">
-                  <li>
-                    <a href="http://localhost:3000/#/app/auth/login">
-                      <span className="sidebar-mini">LG</span>
-                      <span className="sidebar-normal">Login</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="http://localhost:3000/#/app/auth/register">
-                      <span className="sidebar-mini">RG</span>
-                      <span className="sidebar-normal">Registre-se</span>
-                    </a>
-                  </li>
-                </ul>
-              </Collapse>
+              {this.state.user !== null ? (
+                <span>
+                  <Collapse in={this.state.openAvatar}>
+                    <ul className="nav">
+                      <li>
+                        <a href="http://localhost:3000/#/app/users/me">
+                          <span className="sidebar-mini">LG</span>
+                          <span className="sidebar-normal">Meu perfil</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="http://localhost:3000/#/app/users/me/edit">
+                          <span className="sidebar-mini">EP</span>
+                          <span className="sidebar-normal">Editar perfil</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="http://localhost:3000" onClick={event=>this.logout(event)}>
+                          <span className="sidebar-mini">LG</span>
+                          <span className="sidebar-normal">Logout</span>
+                        </a>
+                      </li>
+
+                    </ul>
+                  </Collapse>
+                </span>
+              ) : (
+                  <span>
+                    <Collapse in={this.state.openAvatar}>
+                      <ul className="nav">
+                        <li>
+                          <a href="http://localhost:3000/#/app/auth/login">
+                            <span className="sidebar-mini">LG</span>
+                            <span className="sidebar-normal">Login</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="http://localhost:3000/#/app/auth/register">
+                            <span className="sidebar-mini">RG</span>
+                            <span className="sidebar-normal">Registre-se</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </Collapse>
+                  </span>
+                )}
+
             </div>
           </div>
 
@@ -208,7 +273,7 @@ class Sidebar extends Component {
             })}
 
             <li><hr></hr></li>
-            
+
             {/* */}
             {dashboardRoutes.map((prop, key) => {
               var st = {};
