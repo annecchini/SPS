@@ -148,7 +148,7 @@ class AuthLogin extends Component {
                                         </FormGroup>
 
                                         <FormGroup>
-                                            <NavLink to={"/app/auth/forgot"} className="nav-link">
+                                            <NavLink to={"/app/auth/recover"} className="nav-link">
                                                 <p>Esqueci meu login/senha.</p>
                                             </NavLink>
                                         </FormGroup>

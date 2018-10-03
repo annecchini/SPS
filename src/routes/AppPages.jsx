@@ -27,7 +27,7 @@ var pagesRoutes = [
     name: "Confirm",
     mini: "CF",
     component: ConfirmPage
-  }
+  },
 ];
 
 export default pagesRoutes;

@@ -2,14 +2,12 @@ import React, { Component } from "react";
 import { Grid, Row, Col, Media, FormControl, FormGroup } from "react-bootstrap";
 
 import Card from "components/Card/Card.jsx";
-
 import Button from "components/CustomButton/CustomButton.jsx";
-
-import RegexHelpers from "helpers/RegexHelpers.jsx"
-import { testaCPF } from "helpers/CpfHelpers.jsx"
 
 import MaskedFormControl from "react-bootstrap-maskedinput"
 
+import { testaCPF } from "helpers/CpfHelpers.jsx"
+import RegexHelpers from "helpers/RegexHelpers.jsx"
 import DummyApi from "variables/DummyApi.jsx"
 
 

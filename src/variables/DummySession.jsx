@@ -25,6 +25,9 @@ class DummySession {
             case 'user-info':
                 result = userInfo()
                 break
+            case 'auth-token':
+                result = token()
+                break
             default:
                 break
         }
@@ -73,15 +76,19 @@ function userInfo() {
         return result
     } else {
         if (result.ok === false)
-        return result
-    else
-        throw new Error('falha na comunicação com o servidor')
+            return result
+        else
+            throw new Error('falha na comunicação com o servidor')
     }
 
 }
 
 function logout() {
-        localStorage.removeItem('auth-token')
+    localStorage.removeItem('auth-token')
+}
+
+function token(){
+    return 'a0b1c2d3e4f5'
 }
 
 export default DummySession

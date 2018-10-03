@@ -30,6 +30,9 @@ class DummyApi {
             case 'auth-login':
                 result = authLogin(info)
                 break
+            case 'auth-recover':
+                result = authRecover(info)
+                break
             default:
                 break
         }
@@ -129,8 +132,8 @@ function userCreateResponse(info) {
     }
 }
 
-function userInfo(token){
-    if(token === 'a0b1c2d3e4f5'){
+function userInfo(token) {
+    if (token === 'a0b1c2d3e4f5') {
         return {
             ok: true,
             user: {
@@ -190,6 +193,26 @@ function authLogin(info) {
         }
     }
 
+}
+
+function authRecover(info){
+    if (info.email === "fernando.void@gmail.com" && info.cpf === "088.402.807-07") {
+        return {
+            ok: true,
+            message: {
+                token: 'a0b1c2d3e4f5'
+            }
+        }
+    } else {
+        return {
+            ok: false,
+            message: {
+                "code": "auth-05",
+                "userMessage": "Mensagem de erro do servidor!",
+                "devMessage": {}
+            }
+        }
+    }
 }
 
 export default DummyApi
