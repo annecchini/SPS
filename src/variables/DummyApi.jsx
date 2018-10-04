@@ -45,6 +45,9 @@ class DummyApi {
             case 'process-update':
                 result = processUpdateResponse
                 break
+            case 'auth-restore':
+                result = authRestoreResponse(info)
+                break
             default:
                 break
         }
@@ -123,7 +126,7 @@ const processDeleteResponse = {
 
 function userCreateResponse(info) {
     return {
-        ok: false,
+        ok: true,
         message: {
             "code": "auth-05",
             "userMessage": "Mensagem de erro do servidor!",
@@ -195,12 +198,32 @@ function authLogin(info) {
 
 }
 
-function authRecover(info){
+function authRecover(info) {
     if (info.email === "fernando.void@gmail.com" && info.cpf === "088.402.807-07") {
         return {
             ok: true,
             message: {
                 token: 'a0b1c2d3e4f5'
+            }
+        }
+    } else {
+        return {
+            ok: false,
+            message: {
+                "code": "auth-05",
+                "userMessage": "Mensagem de erro do servidor!",
+                "devMessage": {}
+            }
+        }
+    }
+}
+
+function authRestoreResponse(info) {
+    if (info.recoverKey === "abcdef" && info.password.length >= 6) {
+        return {
+            ok: true,
+            message: {
+                things: 'a0b1c2d3e4f5'
             }
         }
     } else {
