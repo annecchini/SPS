@@ -4,16 +4,15 @@ import { Grid, Row, Col, Media, FormControl, FormGroup } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-import MaskedFormControl from "react-bootstrap-maskedinput"
+import MaskedFormControl from "react-bootstrap-maskedinput";
 
-import { testaCPF } from "helpers/CpfHelpers.jsx"
-import RegexHelpers from "helpers/RegexHelpers.jsx"
-import DummyApi from "variables/DummyApi.jsx"
-
+import { testaCPF } from "helpers/CpfHelpers.jsx";
+import RegexHelpers from "helpers/RegexHelpers.jsx";
+import DummyApi from "variables/DummyApi.jsx";
 
 class AuthRegister extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       //register form data
       register_firstName: "",
@@ -33,47 +32,43 @@ class AuthRegister extends Component {
       register_formError: null,
       //success flag
       success: false
-    }
+    };
   }
 
   handleFirstName(event) {
     //Atualiza valor
     this.setState({
-      register_firstName: event.target.value,
+      register_firstName: event.target.value
     });
     //validação campo requerido.
     event.target.value === ""
       ? this.setState({
-        register_firstNameError: (
-          <small className="text-danger">
-            Campo requerido.
-          </small>
-        )
-      })
+          register_firstNameError: (
+            <small className="text-danger">Campo requerido.</small>
+          )
+        })
       : this.setState({ register_firstNameError: null });
   }
 
   handleLastName(event) {
     //Atualiza valor
     this.setState({
-      register_lastName: event.target.value,
+      register_lastName: event.target.value
     });
     //validação campo requerido.
     event.target.value === ""
       ? this.setState({
-        register_lastNameError: (
-          <small className="text-danger">
-            Campo requerido.
-          </small>
-        )
-      })
+          register_lastNameError: (
+            <small className="text-danger">Campo requerido.</small>
+          )
+        })
       : this.setState({ register_lastNameError: null });
   }
 
   handleCpf(event) {
     //Atualiza valor
     this.setState({
-      register_cpf: event.target.value,
+      register_cpf: event.target.value
     });
     //validação do cpf
     var cpfRex = RegexHelpers.cpfRegex();
@@ -84,157 +79,179 @@ class AuthRegister extends Component {
             Formato de cpf inválido (000.000.000-00).
           </small>
         )
-      })
+      });
     } else {
-      let cpfString = event.target.value
-      cpfString = cpfString.replace(/[^\d]+/g, '')
+      let cpfString = event.target.value;
+      cpfString = cpfString.replace(/[^\d]+/g, "");
       if (!testaCPF(cpfString)) {
         this.setState({
           register_cpfError: (
-            <small className="text-danger">
-              CPF inválido.
-            </small>
+            <small className="text-danger">CPF inválido.</small>
           )
-        })
+        });
       } else {
-        this.setState({ register_cpfError: null })
+        this.setState({ register_cpfError: null });
       }
     }
-
   }
 
   handleEmail(event) {
     //Atualiza valor
     this.setState({
-      register_email: event.target.value,
+      register_email: event.target.value
     });
     //validação
     var emailRex = RegexHelpers.emailRegex();
     emailRex.test(event.target.value) === false
       ? this.setState({
-        register_emailError: (
-          <small className="text-danger">
-            Campo requerido e em formato de email válido.
-          </small>
-        )
-      })
+          register_emailError: (
+            <small className="text-danger">
+              Campo requerido e em formato de email válido.
+            </small>
+          )
+        })
       : this.setState({ register_emailError: null });
   }
 
   handlePassword(event) {
     //Atualiza valor
     this.setState({
-      register_password: event.target.value,
+      register_password: event.target.value
     });
     //validação tamanho da senha.
     event.target.value.length < 6
       ? this.setState({
-        register_passwordError: (
-          <small className="text-danger">
-            A senha deve conter ao menos 6 caracteres.
-          </small>
-        )
-      })
+          register_passwordError: (
+            <small className="text-danger">
+              A senha deve conter ao menos 6 caracteres.
+            </small>
+          )
+        })
       : this.setState({ register_passwordError: null });
     //validação com o password check
     event.target.value !== this.state.register_passwordCheck
       ? this.setState({
-        register_passwordCheckError: (
-          <small className="text-danger">
-            A senhas digitadas não conferem.
-        </small>
-        )
-      })
+          register_passwordCheckError: (
+            <small className="text-danger">
+              A senhas digitadas não conferem.
+            </small>
+          )
+        })
       : this.setState({ register_passwordCheckError: null });
   }
 
   handlePasswordCheck(event) {
     //Atualiza valor
     this.setState({
-      register_passwordCheck: event.target.value,
+      register_passwordCheck: event.target.value
     });
     //validação com o password
     event.target.value !== this.state.register_password
       ? this.setState({
-        register_passwordCheckError: (
-          <small className="text-danger">
-            A senhas digitadas não conferem.
-          </small>
-        )
-      })
+          register_passwordCheckError: (
+            <small className="text-danger">
+              A senhas digitadas não conferem.
+            </small>
+          )
+        })
       : this.setState({ register_passwordCheckError: null });
   }
 
   removeAlert() {
     this.setState({
       register_formError: null
-    })
+    });
   }
 
   handleSubmit(event) {
-    event.preventDefault()
+    event.preventDefault();
 
-    let readyToPost = true
+    let readyToPost = true;
 
     //conferindo se não existem erros em campos / Se existem campos obrigatórios vazios.
-    if ((this.state.register_firstName === "" || this.state.register_lastName === "" || this.state.register_cpf === "" || this.state.register_email === "" || this.state.register_password === "" || this.state.register_passwordCheck === "") || (this.state.register_firstNameError !== null, this.state.register_lastNameError !== null, this.state.register_cpfError !== null, this.state.register_emailError !== null, this.state.register_passwordError !== null, this.state.register_passwordCheckError !== null)) {
-      readyToPost = false
+    if (
+      this.state.register_firstName === "" ||
+      this.state.register_lastName === "" ||
+      this.state.register_cpf === "" ||
+      this.state.register_email === "" ||
+      this.state.register_password === "" ||
+      this.state.register_passwordCheck === "" ||
+      (this.state.register_firstNameError !== null,
+      this.state.register_lastNameError !== null,
+      this.state.register_cpfError !== null,
+      this.state.register_emailError !== null,
+      this.state.register_passwordError !== null,
+      this.state.register_passwordCheckError !== null)
+    ) {
+      readyToPost = false;
       this.setState({
         register_formError: (
           <FormGroup>
             <Col>
-              <div className="alert alert-danger" role="alert" onClick={event => this.removeAlert(event)}>
-                <button type="button" className="close" aria-label="Close">&times;</button>
+              <div
+                className="alert alert-danger"
+                role="alert"
+                onClick={event => this.removeAlert(event)}
+              >
+                <button type="button" className="close" aria-label="Close">
+                  &times;
+                </button>
                 Existem campos requeridos vazios ou com erro.
-                </div>
+              </div>
             </Col>
           </FormGroup>
         )
-      })
+      });
     }
 
     //tentar enviar para o servidor.
     if (readyToPost) {
-
       const newUser = {
         firstName: this.state.register_firstName,
-        lastName: this.state.register_lastName,
-        cpf: this.state.register_cpf,
-        email: this.state.register_email,
-        password: this.state.register_password,
-        userType: "sead"
-      }
+        physicalPerson: {
+          lastName: this.state.register_lastName,
+          cpf: this.state.register_cpf,
+          user: {
+            email: this.state.register_email,
+            password: this.state.register_password,
+            userType: "sead"
+          }
+        }
+      };
 
-      let result = null
+      let result = null;
 
       try {
-        result = DummyApi.postData('user-create', newUser)
-      }
-      catch (exception) {
-        alert("Falha na comunicação com o servidor")
+        result = DummyApi.postData("user-create", newUser);
+      } catch (exception) {
+        alert("Falha na comunicação com o servidor");
       }
 
       if (result.ok === true) {
         this.setState({
           success: true
-        })
+        });
       } else {
         this.setState({
           register_formError: (
             <FormGroup>
               <Col>
-                <div className="alert alert-danger" role="alert" onClick={event => this.removeAlert(event)}>
-                  <button type="button" className="close" aria-label="Close">&times;</button>
+                <div
+                  className="alert alert-danger"
+                  role="alert"
+                  onClick={event => this.removeAlert(event)}
+                >
+                  <button type="button" className="close" aria-label="Close">
+                    &times;
+                  </button>
                   {result.message.userMessage}
                 </div>
               </Col>
             </FormGroup>
           )
-        })
+        });
       }
-
     }
-
   }
 
   renderForm() {
@@ -244,7 +261,9 @@ class AuthRegister extends Component {
           <Col md={8} mdOffset={2}>
             <div className="header-text">
               <h2>Sistema de processo seletivo SEAD - UFES</h2>
-              <h4>Registre-se para poder acessar todos os recursos do sistema</h4>
+              <h4>
+                Registre-se para poder acessar todos os recursos do sistema
+              </h4>
               <hr />
             </div>
           </Col>
@@ -268,7 +287,8 @@ class AuthRegister extends Component {
               </Media.Left>
               <Media.Body>
                 <Media.Heading>Inscrições e recursos</Media.Heading>
-                Em breve será possivel fazer inscrições e entrar com recursos online.
+                Em breve será possivel fazer inscrições e entrar com recursos
+                online.
               </Media.Body>
             </Media>
           </Col>
@@ -284,7 +304,7 @@ class AuthRegister extends Component {
                         type="text"
                         placeholder="Seu nome"
                         value={this.state.register_firstName}
-                        onChange={(event) => this.handleFirstName(event)}
+                        onChange={event => this.handleFirstName(event)}
                       />
                       {this.state.register_firstNameError}
                     </FormGroup>
@@ -293,7 +313,7 @@ class AuthRegister extends Component {
                         type="text"
                         placeholder="Seu sobrenome"
                         value={this.state.register_lastName}
-                        onChange={(event) => this.handleLastName(event)}
+                        onChange={event => this.handleLastName(event)}
                       />
                       {this.state.register_lastNameError}
                     </FormGroup>
@@ -302,8 +322,8 @@ class AuthRegister extends Component {
                         type="text"
                         placeholder="C.P.F."
                         value={this.state.register_cpf}
-                        onChange={(event) => this.handleCpf(event)}
-                        mask='111.111.111-11'
+                        onChange={event => this.handleCpf(event)}
+                        mask="111.111.111-11"
                       />
                       {this.state.register_cpfError}
                     </FormGroup>
@@ -312,7 +332,7 @@ class AuthRegister extends Component {
                         type="email"
                         placeholder="Digite seu email"
                         value={this.state.register_email}
-                        onChange={(event) => this.handleEmail(event)}
+                        onChange={event => this.handleEmail(event)}
                       />
                       {this.state.register_emailError}
                     </FormGroup>
@@ -321,7 +341,7 @@ class AuthRegister extends Component {
                         type="password"
                         placeholder="Senha"
                         value={this.state.register_password}
-                        onChange={(event) => this.handlePassword(event)}
+                        onChange={event => this.handlePassword(event)}
                       />
                       {this.state.register_passwordError}
                     </FormGroup>
@@ -330,7 +350,7 @@ class AuthRegister extends Component {
                         type="password"
                         placeholder="Repita a senha"
                         value={this.state.register_passwordCheck}
-                        onChange={(event) => this.handlePasswordCheck(event)}
+                        onChange={event => this.handlePasswordCheck(event)}
                       />
                       {this.state.register_passwordCheckError}
                     </FormGroup>
@@ -338,9 +358,14 @@ class AuthRegister extends Component {
                 }
                 ftTextCenter
                 legend={
-                  <Button wd fill neutral onClick={(event) => this.handleSubmit(event)}>
+                  <Button
+                    wd
+                    fill
+                    neutral
+                    onClick={event => this.handleSubmit(event)}
+                  >
                     Criar a sua conta
-                </Button>
+                  </Button>
                 }
               />
             </form>
@@ -352,13 +377,14 @@ class AuthRegister extends Component {
 
   renderSuccess() {
     return (
-
       <Grid>
         <Row>
           <Col md={8} mdOffset={2}>
             <div className="header-text">
               <h2>Sistema de processo seletivo SEAD - UFES</h2>
-              <h4>Registre-se para poder acessar todos os recursos do sistema</h4>
+              <h4>
+                Registre-se para poder acessar todos os recursos do sistema
+              </h4>
               <hr />
             </div>
           </Col>
@@ -370,28 +396,28 @@ class AuthRegister extends Component {
                 </div>
               </Media.Left>
               <Media.Body>
-                <Media.Heading>Cadastro efetuado com sucesso {this.state.register_firstName}!</Media.Heading>
-                Um email de confirmação foi enviado para {this.state.register_email}. Acesse seu email e clique no link de confirmação nas próximas 48 horas para terminar de efetuar seu cadastro.
+                <Media.Heading>
+                  Cadastro efetuado com sucesso {this.state.register_firstName}!
+                </Media.Heading>
+                Um email de confirmação foi enviado para{" "}
+                {this.state.register_email}. Acesse seu email e clique no link
+                de confirmação nas próximas 48 horas para terminar de efetuar
+                seu cadastro.
               </Media.Body>
             </Media>
           </Col>
         </Row>
       </Grid>
-    )
+    );
   }
 
   render() {
     if (this.state.success) {
-      return this.renderSuccess()
+      return this.renderSuccess();
     } else {
-      return this.renderForm()
+      return this.renderForm();
     }
   }
-
 }
-
-
-
-
 
 export default AuthRegister;
