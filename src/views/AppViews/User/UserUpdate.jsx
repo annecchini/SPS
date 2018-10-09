@@ -24,71 +24,69 @@ class UserUpdate extends React.Component {
     super(props);
     this.vForm = this.refs.vForm;
     this.state = {
-      // Create process
-      updateProcess_number: "",
-      updateProcess_year: "",
-      updateProcess_end: "",
-      updateProcess_description: "",
-      // Create process error messages
-      updateProcess_numberError: null,
-      updateProcess_yearError: null,
-      updateProcess_endError: null,
-      // Create process form error
-      updateProcess_formError: ""
+      // Create user
+      updateUser_number: "",
+      updateUser_year: "",
+      updateUser_end: "",
+      updateUser_description: "",
+      // Create user error messages
+      updateUser_numberError: null,
+      updateUser_yearError: null,
+      updateUser_endError: null,
+      // Create user form error
+      updateUser_formError: ""
     };
   }
 
   componentDidMount() {
     this.setState({
-      updateProcess_number: FormatHelpers.processNumber(
-        this.props.process.number
-      ),
-      updateProcess_year: this.props.process.year,
-      updateProcess_end: this.props.process.end,
-      updateProcess_description: this.props.process.description
+      updateUser_number: FormatHelpers.processNumber(this.props.user.number),
+      updateUser_year: this.props.user.year,
+      updateUser_end: this.props.user.end,
+      updateUser_description: this.props.user.description
     });
   }
 
-  handleProcessNumber(event) {
+  handleUserNumber(event) {
     //Atualiza valor
     this.setState({
-      updateProcess_number: event.target.value
+      updateUser_number: event.target.value
     });
 
     //Valida ser for numero
     var digitRex = RegexHelpers.numberRegex();
     digitRex.test(event.target.value) === false
       ? this.setState({
-          updateProcess_numberError: (
+          updateUser_numberError: (
             <small className="text-danger">Você deve fornecer um número.</small>
           )
         })
-      : this.setState({ updateProcess_numberError: null });
+      : this.setState({ updateUser_numberError: null });
   }
 
-  handleProcessYear(event) {
+  handleUserYear(event) {
     //Atualiza valor
     this.setState({
-      updateProcess_year: event.target.value
+      updateUser_year: event.target.value
     });
 
     //Valida ser for ano
     var digitRex = RegexHelpers.yearRegex();
     digitRex.test(event.target.value) === false
       ? this.setState({
-          updateProcess_yearError: (
+          updateUser_yearError: (
             <small className="text-danger">
               Você deve digitar o ano no formato AAAA.
             </small>
           )
         })
-      : this.setState({ updateProcess_yearError: null });
+      : this.setState({ updateUser_yearError: null });
   }
 
-  handleProcessEnd(date) {
+  handleUserEnd(date) {
     //Atualiza valor
     this.setState({
-      updateProcess_end: date
+      updateUser_end: date
     });
 
     //verifica formato DD/MM/AAAA
@@ -96,28 +94,28 @@ class UserUpdate extends React.Component {
       var brDateRex = RegexHelpers.brDateRegex();
       brDateRex.test(date) === false
         ? this.setState({
-            updateProcess_endError: (
+            updateUser_endError: (
               <small className="text-danger">
                 Você deve digitar a data no formato DD/MM/AAAA.
               </small>
             )
           })
-        : this.setState({ updateProcess_endError: null });
+        : this.setState({ updateUser_endError: null });
     } else {
-      this.setState({ updateProcess_endError: null });
+      this.setState({ updateUser_endError: null });
     }
   }
 
-  handleProcessDescription(event) {
+  handleUserDescription(event) {
     //Atualiza valor
     this.setState({
-      updateProcess_description: event.target.value
+      updateUser_description: event.target.value
     });
   }
 
   removeAlert() {
     this.setState({
-      createProcess_formError: null
+      createUser_formError: null
     });
   }
 
@@ -128,16 +126,16 @@ class UserUpdate extends React.Component {
 
     //conferindo se não existem erros em campos / Se existem campos obrigatórios vazios.
     if (
-      this.state.updateProcess_numberError !== null ||
-      this.state.updateProcess_yearError !== null ||
-      this.state.updateProcess_endError !== null ||
-      (this.state.updateProcess_number === "" ||
-        this.state.updateProcess_year === "" ||
-        this.state.updateProcess_end === "")
+      this.state.updateUser_numberError !== null ||
+      this.state.updateUser_yearError !== null ||
+      this.state.updateUser_endError !== null ||
+      (this.state.updateUser_number === "" ||
+        this.state.updateUser_year === "" ||
+        this.state.updateUser_end === "")
     ) {
       readyToPost = false;
       this.setState({
-        createProcess_formError: (
+        createUser_formError: (
           <FormGroup>
             <ControlLabel className="col-md-3" />
             <Col md={8}>
@@ -157,12 +155,12 @@ class UserUpdate extends React.Component {
       });
     }
 
-    const updatedProcess = {
-      id: this.props.process.id,
-      number: this.state.updateProcess_number,
-      year: this.state.updateProcess_year,
-      end: this.state.updateProcess_end._d,
-      description: this.state.updateProcess_description
+    const updatedUser = {
+      id: this.props.user.id,
+      number: this.state.updateUser_number,
+      year: this.state.updateUser_year,
+      end: this.state.updateUser_end._d,
+      description: this.state.updateUser_description
     };
 
     //Tentar enviar para o servidor.
@@ -170,16 +168,16 @@ class UserUpdate extends React.Component {
       let result = null;
 
       try {
-        result = DummyApi.putData("process-update", updatedProcess);
+        result = DummyApi.putData("user-update", updatedUser);
       } catch (exception) {
         alert("Falha na comunicação com o servidor");
       }
 
       if (result.ok === true) {
-        this.props.changeMode("process-list");
+        this.props.changeMode("user-list");
       } else {
         this.setState({
-          createProcess_formError: (
+          createUser_formError: (
             <FormGroup>
               <ControlLabel className="col-md-3" />
               <Col md={8}>
@@ -203,7 +201,7 @@ class UserUpdate extends React.Component {
 
   handleCancel(event) {
     event.preventDefault();
-    this.props.changeMode("process-list");
+    this.props.changeMode("user-list");
   }
 
   render() {
@@ -212,12 +210,12 @@ class UserUpdate extends React.Component {
         <Grid fluid>
           <Row>
             <Card
-              title="Atualizar processo"
+              title="Atualizar usuário"
               tableFullWidth
               content={
                 <span>
                   <Form horizontal>
-                    {this.state.createProcess_formError}
+                    {this.state.createUser_formError}
 
                     <FormGroup>
                       <ControlLabel className="col-md-3">
@@ -227,11 +225,11 @@ class UserUpdate extends React.Component {
                         <FormControl
                           placeholder="000"
                           type="text"
-                          name="updateProcess_number"
-                          value={this.state.updateProcess_number}
-                          onChange={event => this.handleProcessNumber(event)}
+                          name="updateUser_number"
+                          value={this.state.updateUser_number}
+                          onChange={event => this.handleUserNumber(event)}
                         />
-                        {this.state.updateProcess_numberError}
+                        {this.state.updateUser_numberError}
                       </Col>
                     </FormGroup>
 
@@ -243,32 +241,32 @@ class UserUpdate extends React.Component {
                         <FormControl
                           placeholder="AAAA"
                           type="text"
-                          name="updateProcess_year"
-                          value={this.state.updateProcess_year}
-                          onChange={event => this.handleProcessYear(event)}
+                          name="updateUser_year"
+                          value={this.state.updateUser_year}
+                          onChange={event => this.handleUserYear(event)}
                         />
-                        {this.state.updateProcess_yearError}
+                        {this.state.updateUser_yearError}
                       </Col>
                     </FormGroup>
 
                     <FormGroup>
                       <ControlLabel className="col-md-3">
-                        Fim do processo: <span className="star">*</span>
+                        Fim do usuário: <span className="star">*</span>
                       </ControlLabel>
                       <Col md={8}>
                         <Datetime
                           locale="pt-br"
                           defaultValue={FormatHelpers.brDate(
-                            this.props.process.end
+                            this.props.user.end
                           )}
-                          onChange={date => this.handleProcessEnd(date)}
+                          onChange={date => this.handleUserEnd(date)}
                           dateFormat="DD/MM/YYYY"
                           timeFormat={false}
                           inputProps={{
                             placeholder: "DD/MM/AAAA"
                           }}
                         />
-                        {this.state.updateProcess_endError}
+                        {this.state.updateUser_endError}
                       </Col>
                     </FormGroup>
 
@@ -278,10 +276,8 @@ class UserUpdate extends React.Component {
                       </ControlLabel>
                       <Col md={8}>
                         <FormControl
-                          value={this.state.updateProcess_description}
-                          onChange={event =>
-                            this.handleProcessDescription(event)
-                          }
+                          value={this.state.updateUser_description}
+                          onChange={event => this.handleUserDescription(event)}
                           componentClass="textarea"
                           placeholder="Escrever mais detalhes sobre o edital..."
                         />
@@ -295,7 +291,7 @@ class UserUpdate extends React.Component {
                           fill
                           onClick={event => this.handleSubmit(event)}
                         >
-                          Atualizar processo
+                          Atualizar usuário
                         </Button>{" "}
                         <Button
                           bsStyle="info"

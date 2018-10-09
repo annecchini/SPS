@@ -18,14 +18,14 @@ class UserDelete extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //delete process form error
-      deleteProcess_formError: null
+      //delete user form error
+      updateUser_formError: null
     };
   }
 
   removeAlert() {
     this.setState({
-      deleteProcess_formError: null
+      updateUser_formError: null
     });
   }
 
@@ -36,8 +36,8 @@ class UserDelete extends React.Component {
 
     //Colocar verificações de dados aqui e alterar "readyToPost" para false se existir restrições para a postagem
 
-    const toDeleteProcess = {
-      id: this.props.process.id
+    const toupdateUser = {
+      id: this.props.user.id
     };
 
     //Tentar enviar para o servidor.
@@ -45,16 +45,16 @@ class UserDelete extends React.Component {
       let result = null;
 
       try {
-        result = DummyApi.delData("process-delete", toDeleteProcess);
+        result = DummyApi.delData("user-delete", toupdateUser);
       } catch (exception) {
         alert("Falha na comunicação com o servidor");
       }
 
       if (result.ok === true) {
-        this.props.changeMode("process-list");
+        this.props.changeMode("user-list");
       } else {
         this.setState({
-          deleteProcess_formError: (
+          updateUser_formError: (
             <FormGroup>
               <ControlLabel className="col-md-3" />
               <Col md={8}>
@@ -78,7 +78,7 @@ class UserDelete extends React.Component {
 
   handleCancel(event) {
     event.preventDefault();
-    this.props.changeMode("process-list");
+    this.props.changeMode("user-list");
   }
 
   render() {
@@ -87,32 +87,32 @@ class UserDelete extends React.Component {
         <Grid fluid>
           <Row>
             <Card
-              title="Excluir processo"
+              title="Excluir usuário"
               tableFullWidth
               content={
                 <span>
                   <Form horizontal>
-                    {this.state.deleteProcess_formError}
+                    {this.state.updateUser_formError}
 
                     <div className="col-md-offset-3">
-                      <p>Tem certeza que deseja excluir esse processo?</p>
+                      <p>Tem certeza que deseja excluir esse usuário</p>
 
                       <dl className="dl-horizontal">
                         <dt>Identificador:</dt>
-                        <dd>{this.props.process.id}</dd>
-                        <dt>Processo:</dt>
+                        <dd>{this.props.user.id}</dd>
+                        <dt>Usuário:</dt>
                         <dd>{`${FormatHelpers.processNumber(
-                          this.props.process.number
-                        )}/${this.props.process.year}`}</dd>
+                          this.props.user.number
+                        )}/${this.props.user.year}`}</dd>
                         <dt>Data de criação:</dt>
                         <dd>
-                          {moment(this.props.process.createdAt).format(
+                          {moment(this.props.user.createdAt).format(
                             "DD/MM/YYYY"
                           )}
                         </dd>
                         <dt>Última atualização:</dt>
                         <dd>
-                          {moment(this.props.process.createdAt).format(
+                          {moment(this.props.user.createdAt).format(
                             "DD/MM/YYYY"
                           )}
                         </dd>
@@ -126,7 +126,7 @@ class UserDelete extends React.Component {
                           fill
                           onClick={event => this.handleSubmit(event)}
                         >
-                          Excluir processo
+                          Excluir usuário
                         </Button>{" "}
                         <Button
                           bsStyle="info"

@@ -105,7 +105,9 @@ class UserList extends React.Component {
                   <Table responsive>
                     <thead>
                       <tr>
-                        <th>Numero/Ano</th>
+                        <th>Nome/Sobrenome</th>
+                        <th>Email principal</th>
+                        <th>Último Acesso</th>
                         <th className="text-right">Ações</th>
                       </tr>
                     </thead>
@@ -113,6 +115,10 @@ class UserList extends React.Component {
                       {this.state.userList.map(user => {
                         return (
                           <tr key={user.id}>
+                            <td>
+                              {user.firstName} {user.lastName}
+                            </td>
+                            <td>{user.login}</td>
                             <td>{user.login}</td>
                             {this.renderActions(user)}
                           </tr>
