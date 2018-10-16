@@ -7,6 +7,11 @@ import Button from "components/CustomButton/CustomButton.jsx";
 
 import DummyApi from "../../../variables/DummyApi.jsx";
 
+//Imports para colocar o datetime em pt-br
+import moment from "moment";
+import "moment/locale/pt-br";
+moment.locale("pt-br");
+
 class UserList extends React.Component {
   constructor(props) {
     super(props);
@@ -119,7 +124,11 @@ class UserList extends React.Component {
                               {user.firstName} {user.lastName}
                             </td>
                             <td>{user.login}</td>
-                            <td>{user.login}</td>
+                            <td>
+                              {moment(user.lastAcess)
+                                .startOf("day")
+                                .fromNow()}
+                            </td>
                             {this.renderActions(user)}
                           </tr>
                         );

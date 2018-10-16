@@ -9,6 +9,7 @@ import Button from "components/CustomButton/CustomButton.jsx";
 
 import DummyApi from "../../../variables/DummyApi.jsx";
 import RegexHelpers from "../../../helpers/RegexHelpers.jsx";
+import { testaCPF } from "helpers/CpfHelpers.jsx";
 
 //Imports para colocar o datetime em pt-br
 import moment from "moment";
@@ -22,8 +23,16 @@ class UserCreate extends React.Component {
     this.state = {
       // Create user
       createUser_login: "",
+      createUser_password: "",
+      createUser_firstName: "",
+      createUser_lastName: "",
+      createUser_cpf: "",
       // Create user error messages
       createUser_loginError: null,
+      createUser_passwordError: null,
+      createUser_firstNameError: null,
+      createUser_lastNameError: null,
+      createUser_cpfError: null,
       // Create user form error
       createUser_formError: null
     };
@@ -32,18 +41,129 @@ class UserCreate extends React.Component {
   handleUserLogin(event) {
     //Atualiza valor
     this.setState({
-      createUser_number: event.target.value
+      createUser_login: event.target.value,
+      createUser_loginError: null
     });
 
-    //Valida ser for numero
-    var digitRex = RegexHelpers.numberRegex();
-    digitRex.test(event.target.value) === false
-      ? this.setState({
-          createUser_numberError: (
-            <small className="text-danger">Você deve fornecer um número.</small>
+    //validação email
+    var emailRex = RegexHelpers.emailRegex();
+    if (emailRex.test(event.target.value) === false) {
+      this.setState({
+        createUser_loginError: (
+          <small className="text-danger">Formato de email válido.</small>
+        )
+      });
+    }
+
+    //validação campo requerido.
+    if (event.target.value === "") {
+      this.setState({
+        createUser_loginError: (
+          <small className="text-danger">Campo requerido</small>
+        )
+      });
+    }
+  }
+
+  handlePassword(event) {
+    //Atualiza valor
+    this.setState({
+      createUser_password: event.target.value,
+      createUser_passwordError: null
+    });
+
+    //validação tamanho da senha.
+    if (event.target.value.length < 6) {
+      this.setState({
+        createUser_passwordError: (
+          <small className="text-danger">
+            A senha deve conter ao menos 6 caracteres.
+          </small>
+        )
+      });
+    }
+
+    //validação campo requerido.
+    if (event.target.value === "") {
+      this.setState({
+        createUser_passwordError: (
+          <small className="text-danger">Campo requerido</small>
+        )
+      });
+    }
+  }
+
+  handleFirstName(event) {
+    //Atualiza valor
+    this.setState({
+      createUser_firstName: event.target.value,
+      createUser_firstNameError: null
+    });
+
+    //validação campo requerido.
+    if (event.target.value === "") {
+      this.setState({
+        createUser_firstNameError: (
+          <small className="text-danger">Campo requerido</small>
+        )
+      });
+    }
+  }
+
+  handleLastName(event) {
+    //Atualiza valor
+    this.setState({
+      register_lastName: event.target.value,
+      createUser_lastNameError: null
+    });
+
+    //validação campo requerido.
+    if (event.target.value === "") {
+      this.setState({
+        createUser_lastNameError: (
+          <small className="text-danger">Campo requerido.</small>
+        )
+      });
+    }
+  }
+
+  handleCpf(event) {
+    //Atualiza valor
+    this.setState({
+      createUser_cpf: event.target.value,
+      createUser_cpfError: null
+    });
+
+    //validação do cpf
+    var cpfRex = RegexHelpers.cpfRegex();
+    if (cpfRex.test(event.target.value) === false) {
+      this.setState({
+        createUser_cpfError: (
+          <small className="text-danger">
+            Formato de cpf inválido (000.000.000-00).
+          </small>
+        )
+      });
+    } else {
+      let cpfString = event.target.value;
+      cpfString = cpfString.replace(/[^\d]+/g, "");
+      if (!testaCPF(cpfString)) {
+        this.setState({
+          createUser_cpfError: (
+            <small className="text-danger">CPF inválido.</small>
           )
-        })
-      : this.setState({ createUser_numberError: null });
+        });
+      }
+    }
+
+    //validação campo requerido.
+    if (event.target.value === "") {
+      this.setState({
+        createUser_cpfError: (
+          <small className="text-danger">Campo requerido.</small>
+        )
+      });
+    }
   }
 
   removeAlert() {
@@ -54,6 +174,7 @@ class UserCreate extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    let newUser = {};
   }
 
   handleCancel(event) {
@@ -76,7 +197,7 @@ class UserCreate extends React.Component {
 
                     <FormGroup>
                       <ControlLabel className="col-md-3">
-                        Login: <span className="star">*</span>
+                        Login/Email: <span className="star">*</span>
                       </ControlLabel>
                       <Col md={8}>
                         <FormControl
@@ -86,6 +207,66 @@ class UserCreate extends React.Component {
                           onChange={event => this.handleUserLogin(event)}
                         />
                         {this.state.createUser_loginError}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <ControlLabel className="col-md-3">
+                        Senha: <span className="star">*</span>
+                      </ControlLabel>
+                      <Col md={8}>
+                        <FormControl
+                          placeholder="Senha"
+                          type="password"
+                          name="createUser_password"
+                          onChange={event => this.handlePassword(event)}
+                        />
+                        {this.state.createUser_passwordError}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <ControlLabel className="col-md-3">
+                        Nome: <span className="star">*</span>
+                      </ControlLabel>
+                      <Col md={8}>
+                        <FormControl
+                          placeholder="Nome"
+                          type="text"
+                          name="createUser_firstName"
+                          onChange={event => this.handleFirstName(event)}
+                        />
+                        {this.state.createUser_firstNameError}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <ControlLabel className="col-md-3">
+                        Sobrenome: <span className="star">*</span>
+                      </ControlLabel>
+                      <Col md={8}>
+                        <FormControl
+                          placeholder="Sobrenome"
+                          type="text"
+                          name="createUser_lastName"
+                          onChange={event => this.handleLastName(event)}
+                        />
+                        {this.state.createUser_lastNameError}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <ControlLabel className="col-md-3">
+                        C.P.F: <span className="star">*</span>
+                      </ControlLabel>
+                      <Col md={8}>
+                        <FormControl
+                          placeholder="C.P.F."
+                          type="text"
+                          name="createUser_cpf"
+                          onChange={event => this.handleCpf(event)}
+                        />
+                        {this.state.createUser_cpfError}
                       </Col>
                     </FormGroup>
 

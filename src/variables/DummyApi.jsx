@@ -77,7 +77,8 @@ const processList = [
     end: new Date(2018, 11, 3),
     description: "Observações do primeiro processo.",
     createdAt: new Date("2018-09-03T21:23:41.000Z"),
-    updatedAt: new Date("2018-09-03T21:23:41.000Z")
+    updatedAt: new Date("2018-09-03T21:23:41.000Z"),
+    lastAcess: new Date("2018-09-05T21:23:41.000Z")
   },
   {
     id: 2,
@@ -86,7 +87,8 @@ const processList = [
     end: new Date(2018, 11, 25),
     description: "Observações do segundo processo.",
     createdAt: new Date("2018-09-03T21:23:41.000Z"),
-    updatedAt: new Date("2018-09-03T21:23:41.000Z")
+    updatedAt: new Date("2018-09-03T21:23:41.000Z"),
+    lastAcess: new Date("2018-09-04T21:23:41.000Z")
   },
   {
     id: 3,
@@ -95,7 +97,8 @@ const processList = [
     end: new Date(2018, 11, 26),
     description: "Observações do terceiro processo.",
     createdAt: new Date("2018-09-03T21:23:41.000Z"),
-    updatedAt: new Date("2018-09-03T21:23:41.000Z")
+    updatedAt: new Date("2018-09-03T21:23:41.000Z"),
+    lastAcess: new Date("2018-09-08T21:23:41.000Z")
   }
 ];
 
@@ -245,19 +248,22 @@ function userListResponse() {
       id: 1,
       login: "fernando.void@gmail.com",
       firstName: "Fernando",
-      lastName: "Lyrio Annecchini"
+      lastName: "Lyrio Annecchini",
+      lastAcess: new Date("2018-09-05T21:23:41.000Z")
     },
     {
       id: 2,
       login: "fernando.zoip@gmail.com",
       firstName: "Ferdinandus",
-      lastName: "Lyriow Annecchinix"
+      lastName: "Lyriow Annecchinix",
+      lastAcess: new Date("2018-09-06T21:23:41.000Z")
     },
     {
       id: 3,
       login: "fernando.boic@gmail.com",
       firstName: "Fernandus",
-      lastName: "Lyrios Annecchiniz"
+      lastName: "Lyrios Annecchiniz",
+      lastAcess: new Date("2018-10-07T21:23:41.000Z")
     }
   ];
 }
