@@ -1,13 +1,18 @@
 import React from "react";
 
-import { Grid, Row, Form, FormGroup, Col, ControlLabel } from "react-bootstrap";
+import {
+  Grid,
+  Row,
+  Form,
+  FormGroup,
+  FormControl,
+  Col,
+  ControlLabel
+} from "react-bootstrap";
+import MaskedFormControl from "react-bootstrap-maskedinput";
 
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-
-import DummyApi from "../../../variables/DummyApi.jsx";
-
-import FormatHelpers from "../../../helpers/FormatHelpers.jsx";
 
 //Imports para colocar o datetime em pt-br
 import moment from "moment";
@@ -17,9 +22,22 @@ moment.locale("pt-br");
 class UserDelete extends React.Component {
   constructor(props) {
     super(props);
+    this.vForm = this.refs.vForm;
     this.state = {
-      //delete user form error
-      updateUser_formError: null
+      // Create user
+      login: this.props.user.login,
+      password: "",
+      firstName: this.props.user.firstName,
+      lastName: this.props.user.lastName,
+      cpf: this.props.user.cpf,
+      // Create user error messages
+      loginError: null,
+      passwordError: null,
+      firstNameError: null,
+      lastNameError: null,
+      cpfError: null,
+      // Create user form error
+      formError: null
     };
   }
 
@@ -31,49 +49,8 @@ class UserDelete extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
-    let readyToPost = true;
-
-    //Colocar verificações de dados aqui e alterar "readyToPost" para false se existir restrições para a postagem
-
-    const toupdateUser = {
-      id: this.props.user.id
-    };
-
-    //Tentar enviar para o servidor.
-    if (readyToPost) {
-      let result = null;
-
-      try {
-        result = DummyApi.delData("user-delete", toupdateUser);
-      } catch (exception) {
-        alert("Falha na comunicação com o servidor");
-      }
-
-      if (result.ok === true) {
-        this.props.changeMode("user-list");
-      } else {
-        this.setState({
-          updateUser_formError: (
-            <FormGroup>
-              <ControlLabel className="col-md-3" />
-              <Col md={8}>
-                <div
-                  className="alert alert-danger"
-                  role="alert"
-                  onClick={event => this.removeAlert(event)}
-                >
-                  <button type="button" className="close" aria-label="Close">
-                    &times;
-                  </button>
-                  {result.message.userMessage}
-                </div>
-              </Col>
-            </FormGroup>
-          )
-        });
-      }
-    }
+    console.log("delete user");
+    this.props.changeMode("user-list");
   }
 
   handleCancel(event) {
@@ -92,32 +69,88 @@ class UserDelete extends React.Component {
               content={
                 <span>
                   <Form horizontal>
-                    {this.state.updateUser_formError}
+                    {this.state.createUser_formError}
 
-                    <div className="col-md-offset-3">
-                      <p>Tem certeza que deseja excluir esse usuário</p>
+                    <FormGroup>
+                      <ControlLabel className="col-md-3">
+                        Login/Email: <span className="star">*</span>
+                      </ControlLabel>
+                      <Col md={8}>
+                        <FormControl
+                          placeholder="Login do usuário"
+                          type="text"
+                          name="login"
+                          value={this.state.login}
+                          disabled
+                        />
+                        {this.state.createUser_loginError}
+                      </Col>
+                    </FormGroup>
 
-                      <dl className="dl-horizontal">
-                        <dt>Identificador:</dt>
-                        <dd>{this.props.user.id}</dd>
-                        <dt>Usuário:</dt>
-                        <dd>{`${FormatHelpers.processNumber(
-                          this.props.user.number
-                        )}/${this.props.user.year}`}</dd>
-                        <dt>Data de criação:</dt>
-                        <dd>
-                          {moment(this.props.user.createdAt).format(
-                            "DD/MM/YYYY"
-                          )}
-                        </dd>
-                        <dt>Última atualização:</dt>
-                        <dd>
-                          {moment(this.props.user.createdAt).format(
-                            "DD/MM/YYYY"
-                          )}
-                        </dd>
-                      </dl>
-                    </div>
+                    <FormGroup>
+                      <ControlLabel className="col-md-3">
+                        Senha: <span className="star">*</span>
+                      </ControlLabel>
+                      <Col md={8}>
+                        <FormControl
+                          placeholder="Senha"
+                          type="password"
+                          name="password"
+                          value={this.state.password}
+                          disabled
+                        />
+                        {this.state.createUser_passwordError}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <ControlLabel className="col-md-3">
+                        Nome: <span className="star">*</span>
+                      </ControlLabel>
+                      <Col md={8}>
+                        <FormControl
+                          placeholder="Nome"
+                          type="text"
+                          name="firstName"
+                          value={this.state.firstName}
+                          disabled
+                        />
+                        {this.state.createUser_firstNameError}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <ControlLabel className="col-md-3">
+                        Sobrenome: <span className="star">*</span>
+                      </ControlLabel>
+                      <Col md={8}>
+                        <FormControl
+                          placeholder="Sobrenome"
+                          type="text"
+                          name="lastName"
+                          value={this.state.lastName}
+                          disabled
+                        />
+                        {this.state.createUser_lastNameError}
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <ControlLabel className="col-md-3">
+                        C.P.F: <span className="star">*</span>
+                      </ControlLabel>
+                      <Col md={8}>
+                        <MaskedFormControl
+                          placeholder="C.P.F."
+                          type="text"
+                          name="cpf"
+                          value={this.state.cpf}
+                          mask="111.111.111-11"
+                          disabled
+                        />
+                        {this.state.createUser_cpfError}
+                      </Col>
+                    </FormGroup>
 
                     <FormGroup>
                       <Col md={8} mdOffset={3}>

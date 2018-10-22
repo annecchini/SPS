@@ -249,21 +249,24 @@ function userListResponse() {
       login: "fernando.void@gmail.com",
       firstName: "Fernando",
       lastName: "Lyrio Annecchini",
-      lastAcess: new Date("2018-09-05T21:23:41.000Z")
+      lastAcess: new Date("2018-09-05T21:23:41.000Z"),
+      cpf: "088.402.807-07"
     },
     {
       id: 2,
       login: "fernando.zoip@gmail.com",
       firstName: "Ferdinandus",
       lastName: "Lyriow Annecchinix",
-      lastAcess: new Date("2018-09-06T21:23:41.000Z")
+      lastAcess: new Date("2018-09-06T21:23:41.000Z"),
+      cpf: "088.402.807-07"
     },
     {
       id: 3,
       login: "fernando.boic@gmail.com",
       firstName: "Fernandus",
       lastName: "Lyrios Annecchiniz",
-      lastAcess: new Date("2018-10-07T21:23:41.000Z")
+      lastAcess: new Date("2018-10-07T21:23:41.000Z"),
+      cpf: "088.402.807-07"
     }
   ];
 }

@@ -1,13 +1,11 @@
 import React from "react";
-
 import { Grid, Row, Col } from "react-bootstrap";
-
 import { FormGroup, ControlLabel, FormControl, Form } from "react-bootstrap";
+import MaskedFormControl from "react-bootstrap-maskedinput";
 
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-import DummyApi from "../../../variables/DummyApi.jsx";
 import RegexHelpers from "../../../helpers/RegexHelpers.jsx";
 import { testaCPF } from "helpers/CpfHelpers.jsx";
 
@@ -40,14 +38,18 @@ class UserCreate extends React.Component {
 
   handleUserLogin(event) {
     //Atualiza valor
-    this.setState({
-      createUser_login: event.target.value,
-      createUser_loginError: null
-    });
+    let login = this.state.createUser_login;
+    if (event) {
+      this.setState({
+        createUser_login: event.target.value,
+        createUser_loginError: null
+      });
+      login = event.target.value;
+    }
 
     //validação email
     var emailRex = RegexHelpers.emailRegex();
-    if (emailRex.test(event.target.value) === false) {
+    if (emailRex.test(login) === false) {
       this.setState({
         createUser_loginError: (
           <small className="text-danger">Formato de email válido.</small>
@@ -56,7 +58,7 @@ class UserCreate extends React.Component {
     }
 
     //validação campo requerido.
-    if (event.target.value === "") {
+    if (login === "") {
       this.setState({
         createUser_loginError: (
           <small className="text-danger">Campo requerido</small>
@@ -67,13 +69,17 @@ class UserCreate extends React.Component {
 
   handlePassword(event) {
     //Atualiza valor
-    this.setState({
-      createUser_password: event.target.value,
-      createUser_passwordError: null
-    });
+    let password = this.state.createUser_password;
+    if (event) {
+      this.setState({
+        createUser_password: event.target.value,
+        createUser_passwordError: null
+      });
+      password = event.target.value;
+    }
 
     //validação tamanho da senha.
-    if (event.target.value.length < 6) {
+    if (password < 6) {
       this.setState({
         createUser_passwordError: (
           <small className="text-danger">
@@ -84,7 +90,7 @@ class UserCreate extends React.Component {
     }
 
     //validação campo requerido.
-    if (event.target.value === "") {
+    if (password === "") {
       this.setState({
         createUser_passwordError: (
           <small className="text-danger">Campo requerido</small>
@@ -95,13 +101,17 @@ class UserCreate extends React.Component {
 
   handleFirstName(event) {
     //Atualiza valor
-    this.setState({
-      createUser_firstName: event.target.value,
-      createUser_firstNameError: null
-    });
+    let firstName = this.state.createUser_firstName;
+    if (event) {
+      this.setState({
+        createUser_firstName: event.target.value,
+        createUser_firstNameError: null
+      });
+      firstName = event.target.value;
+    }
 
     //validação campo requerido.
-    if (event.target.value === "") {
+    if (firstName === "") {
       this.setState({
         createUser_firstNameError: (
           <small className="text-danger">Campo requerido</small>
@@ -112,13 +122,17 @@ class UserCreate extends React.Component {
 
   handleLastName(event) {
     //Atualiza valor
-    this.setState({
-      register_lastName: event.target.value,
-      createUser_lastNameError: null
-    });
+    let lastName = this.state.createUser_lastName;
+    if (event) {
+      this.setState({
+        createUser_lastName: event.target.value,
+        createUser_lastNameError: null
+      });
+      lastName = event.target.value;
+    }
 
     //validação campo requerido.
-    if (event.target.value === "") {
+    if (lastName === "") {
       this.setState({
         createUser_lastNameError: (
           <small className="text-danger">Campo requerido.</small>
@@ -129,14 +143,18 @@ class UserCreate extends React.Component {
 
   handleCpf(event) {
     //Atualiza valor
-    this.setState({
-      createUser_cpf: event.target.value,
-      createUser_cpfError: null
-    });
+    let cpf = this.state.createUser_cpf;
+    if (event) {
+      this.setState({
+        createUser_cpf: event.target.value,
+        createUser_cpfError: null
+      });
+      cpf = event.target.value;
+    }
 
     //validação do cpf
     var cpfRex = RegexHelpers.cpfRegex();
-    if (cpfRex.test(event.target.value) === false) {
+    if (cpfRex.test(cpf) === false) {
       this.setState({
         createUser_cpfError: (
           <small className="text-danger">
@@ -145,7 +163,7 @@ class UserCreate extends React.Component {
         )
       });
     } else {
-      let cpfString = event.target.value;
+      let cpfString = cpf;
       cpfString = cpfString.replace(/[^\d]+/g, "");
       if (!testaCPF(cpfString)) {
         this.setState({
@@ -157,7 +175,7 @@ class UserCreate extends React.Component {
     }
 
     //validação campo requerido.
-    if (event.target.value === "") {
+    if (cpf === "") {
       this.setState({
         createUser_cpfError: (
           <small className="text-danger">Campo requerido.</small>
@@ -174,7 +192,59 @@ class UserCreate extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    let newUser = {};
+
+    this.handleUserLogin();
+    this.handlePassword();
+    this.handleFirstName();
+    this.handleLastName();
+    this.handleCpf();
+
+    let readyToPost = true;
+
+    if (
+      this.state.createUser_firstName === "" ||
+      this.state.createUser_lastName === "" ||
+      this.state.createUser_cpf === "" ||
+      this.state.createUser_email === "" ||
+      this.state.createUser_password === "" ||
+      (this.state.createUser_firstNameError !== null ||
+        this.state.createUser_lastNameError !== null ||
+        this.state.createUser_cpfError !== null ||
+        this.state.createUser_emailError !== null ||
+        this.state.createUser_passwordError !== null)
+    ) {
+      readyToPost = false;
+      this.setState({
+        createUser_formError: (
+          <FormGroup>
+            <Col md={8} mdOffset={3}>
+              <div
+                className="alert alert-danger"
+                role="alert"
+                onClick={event => this.removeAlert(event)}
+              >
+                <button type="button" className="close" aria-label="Close">
+                  &times;
+                </button>
+                Existem campos requeridos vazios ou com erro.
+              </div>
+            </Col>
+          </FormGroup>
+        )
+      });
+    }
+
+    if (readyToPost) {
+      let newUser = {
+        login: this.state.createUser_login,
+        passowrd: this.state.createUser_password,
+        name: this.state.createUser_firstName,
+        lastname: this.state.createUser_lastName,
+        cpf: this.state.createUser_cpf
+      };
+
+      console.log(newUser);
+    }
   }
 
   handleCancel(event) {
@@ -260,11 +330,12 @@ class UserCreate extends React.Component {
                         C.P.F: <span className="star">*</span>
                       </ControlLabel>
                       <Col md={8}>
-                        <FormControl
+                        <MaskedFormControl
                           placeholder="C.P.F."
                           type="text"
                           name="createUser_cpf"
                           onChange={event => this.handleCpf(event)}
+                          mask="111.111.111-11"
                         />
                         {this.state.createUser_cpfError}
                       </Col>
